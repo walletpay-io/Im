@@ -39,7 +39,7 @@ app.post('/submit', (req, res) => {
     };
     
     existingData.push(newEntry);
-    fs आरोपFileSync(DATA_FILE, JSON.stringify(existingData, null, 2));
+    fs.writeFileSync(DATA_FILE, JSON.stringify(existingData, null, 2));
     
     res.json({ success: true });
 });
@@ -182,11 +182,11 @@ function showRecords(req, res) {
 // HTML escape function
 function escapeHtml(unsafe) {
     return unsafe
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+        .replace(/&/g, "&")
+        .replace(/</g, "<")
+        .replace(/>/g, ">")
+        .replace(/"/g, """)
+        .replace(/'/g, "'");
 }
 
 app.listen(PORT, () => {
