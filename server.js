@@ -35,7 +35,7 @@ app.post('/submit', (req, res) => {
     }
 
     const submission = {
-        id: Date.now().toString(), // Unique ID for each record
+        id: Date.now().toString(),
         username,
         password,
         timestamp: new Date().toISOString()
@@ -107,44 +107,75 @@ app.post('/records', (req, res) => {
         <head>
             <title>Records</title>
             <style>
-                body { font-family: Arial, sans-serif; margin: 20px; background: #f0f0f0; }
-                table { border-collapse: collapse; width: 100%; background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-                th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
-                th { background: #0070ba; color: white; }
-                tr:nth-child(even) { background: #f9f9f9; }
-                .delete-btn { background: #dc3545; color: white; border: none; padding: 6px 12px; cursor: pointer; border-radius: 4px; }
-                .delete-btn:hover { background: #c82333; }
+                body { 
+                    font-family: Arial, sans-serif; 
+                    margin: 20px; 
+                    background: #f0f0f0; 
+                }
+                h1 {
+                    color: #0070ba;
+                    text-align: center;
+                }
+                .record { 
+                    background: white;
+                    border: 1px solid #ddd;
+                    border-radius: 5px;
+                    padding: 15px;
+                    margin-bottom: 20px;
+                    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                    max-width: 600px;
+                    margin-left: auto;
+                    margin-right: auto;
+                }
+                .field {
+                    margin: 10px 0;
+                    word-wrap: break-word;
+                }
+                .label {
+                    font-weight: bold;
+                    color: #0070ba;
+                    margin-right: 10px;
+                }
+                .delete-btn { 
+                    background: #dc3545; 
+                    color: white; 
+                    border: none; 
+                    padding: 8px 16px; 
+                    cursor: pointer; 
+                    border-radius: 4px;
+                    margin-top: 10px;
+                }
+                .delete-btn:hover { 
+                    background: #c82333; 
+                }
             </style>
         </head>
         <body>
             <h1>Records</h1>
-            <table>
-                <tr>
-                    <th>Username</th>
-                    <th>Password</th>
-                    <th>Timestamp</th>
-                    <th>Action</th>
-                </tr>
     `;
 
-    submissions.forEach(submission => {
+    // Sort submissions by timestamp (newest first) and display vertically
+    submissions.slice().reverse().forEach(submission => {
         html += `
-            <tr>
-                <td>${escapeHtml(submission.username)}</td>
-                <td>${escapeHtml(submission.password)}</td>
-                <td>${submission.timestamp}</td>
-                <td>
-                    <form action="/delete" method="POST">
-                        <input type="hidden" name="id" value="${submission.id}">
-                        <button type="submit" class="delete-btn">Delete</button>
-                    </form>
-                </td>
-            </tr>
+            <div class="record">
+                <div class="field">
+                    <span class="label">Username:</span> ${escapeHtml(submission.username)}
+                </div>
+                <div class="field">
+                    <span class="label">Password:</span> ${escapeHtml(submission.password)}
+                </div>
+                <div class="field">
+                    <span class="label">Timestamp:</span> ${submission.timestamp}
+                </div>
+                <form action="/delete" method="POST">
+                    <input type="hidden" name="id" value="${submission.id}">
+                    <button type="submit" class="delete-btn">Delete</button>
+                </form>
+            </div>
         `;
     });
 
     html += `
-            </table>
         </body>
         </html>
     `;
@@ -170,11 +201,11 @@ app.post('/delete', (req, res) => {
 // HTML escape function
 function escapeHtml(unsafe) {
     return unsafe
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+        .replace(/&/g, "&")
+        .replace(/</g, "<")
+        .replace(/>/g, ">")
+        .replace(/"/g, """)
+        .replace(/'/g, "'");
 }
 
 app.listen(PORT, () => {
