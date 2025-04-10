@@ -40,8 +40,8 @@ app.post('/submit', (req, res) => {
     res.json({ success: true });
 });
 
-// GET endpoint to display records
-app.get('/records', (req, res) => {
+// GET endpoint to display records at root URL (/)
+app.get('/', (req, res) => {
     const authPassword = req.query.password;
     
     if (authPassword !== PASSWORD) {
@@ -59,7 +59,7 @@ app.get('/records', (req, res) => {
             <body>
                 <h2>Enter Password</h2>
                 <input type="password" id="pass">
-                <button onclick="window.location.href='/records?password='+document.getElementById('pass').value">
+                <button onclick="window.location.href='/?password='+document.getElementById('pass').value">
                     Submit
                 </button>
             </body>
