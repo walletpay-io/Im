@@ -1,13 +1,15 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
+const cors = require('cors'); // Add CORS
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000; // Use Render's PORT env variable
 
 // Set a password (in a real app, this should be stored securely in environment variables)
 const VIEW_PASSWORD = 'admin123'; // Change this to your desired password
 
 // Middleware
+app.use(cors()); // Enable CORS for all routes
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // For parsing form data
 app.use(express.static(path.join(__dirname, 'public')));
@@ -224,5 +226,5 @@ function escapeHtml(unsafe) {
 }
 
 app.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}`);
+    console.log(`Server running at port ${port}`);
 });
