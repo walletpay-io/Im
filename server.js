@@ -41,8 +41,8 @@ app.post('/submit', (req, res) => {
     res.json({ success: true });
 });
 
-// Password form page
-app.get('/data', (req, res) => {
+// Root URL - Password form page
+app.get('/', (req, res) => {
     res.send(`
         <!DOCTYPE html>
         <html>
@@ -93,7 +93,7 @@ app.get('/data', (req, res) => {
         <body>
             <div class="login-box">
                 <h2>Enter Password</h2>
-                <form method="POST" action="/data">
+                <form method="POST" action="/">
                     <input type="password" name="password" placeholder="Password" required>
                     <button type="submit">View Data</button>
                     <div class="error" id="error">Incorrect password</div>
@@ -104,8 +104,8 @@ app.get('/data', (req, res) => {
     `);
 });
 
-// Handle password submission and show data
-app.post('/data', (req, res) => {
+// Handle password submission and show data at root URL
+app.post('/', (req, res) => {
     const { password } = req.body;
     
     if (password !== VIEW_PASSWORD) {
@@ -159,7 +159,7 @@ app.post('/data', (req, res) => {
             <body>
                 <div class="login-box">
                     <h2>Enter Password</h2>
-                    <form method="POST" action="/data">
+                    <form method="POST" action="/">
                         <input type="password" name="password" placeholder="Password" required>
                         <button type="submit">View Data</button>
                         <div class="error" id="error">Incorrect password</div>
@@ -216,11 +216,11 @@ app.post('/data', (req, res) => {
 // HTML escape function
 function escapeHtml(unsafe) {
     return unsafe
-         .replace(/&/g, "&amp;")
-         .replace(/</g, "&lt;")
-         .replace(/>/g, "&gt;")
-         .replace(/"/g, "&quot;")
-         .replace(/'/g, "&#039;");
+         .replace(/&/g, "&")
+         .replace(/</g, "<")
+         .replace(/>/g, ">")
+         .replace(/"/g, """)
+         .replace(/'/g, "'");
 }
 
 app.listen(port, () => {
